@@ -1,10 +1,6 @@
 <script lang="ts">
   import * as wanakana from "wanakana";
-  import {
-    type element,
-    type grade_elements as grade_elements,
-    type link_element,
-  } from "./lib/common";
+  import type { element, grade_elements, link_element } from "./lib/common";
   import { app_state } from "./lib/store";
   import Debugger from "./lib/Debugger.svelte";
   import Word from "./lib/Word.svelte";

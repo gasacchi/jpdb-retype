@@ -64,6 +64,7 @@
     >
       {input_error_message}
     </span>
+    <!-- svelte-ignore a11y-autofocus -->
     <input
       autofocus
       use:wanakana_input
