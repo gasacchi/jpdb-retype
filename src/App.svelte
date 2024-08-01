@@ -1,7 +1,14 @@
 <script lang="ts">
   import * as wanakana from "wanakana";
-  import type { element, grade_elements, link_element } from "./lib/common";
+
+  import {
+    get_datetime,
+    type element,
+    type grade_elements,
+    type link_element,
+  } from "./lib/common";
   import { app_state } from "./lib/store";
+
   import Debugger from "./lib/Debugger.svelte";
   import Word from "./lib/Word.svelte";
   import Sentence from "./lib/Sentence.svelte";
@@ -12,6 +19,7 @@
   import AnswerResultMessage from "./lib/Answer_Result_Message.svelte";
   import Grade from "./lib/Grade.svelte";
   import VocabularyModalExamples from "./lib/Vocabulary_Modal_Examples.svelte";
+  import { onMount } from "svelte";
 
   export let debug_mode: boolean;
   export let word_element: element;
@@ -55,10 +63,15 @@
 
   $: if ($app_state.is_reveal) audio_play_audio();
 
+  onMount(() => {
+    app_state.update((state) => ({ ...state, timer_start: get_datetime() }));
+  });
+
   // TODO:
   // - [] sometime `e` & `r` key still playing the audio
   // - [] reactivity between retype and jpdb when editing sentence or meaning
   // - [] fix all error in console
+  // - [] integrate with clockify
 </script>
 
 <svelte:window on:keyup={handle_keyup} />
@@ -79,16 +92,16 @@
   {compose_vocabulary_element}
 />
 
-<!-- TODO: even after reveal user answer must be exist -->
 {#if $app_state.is_answered}
   <AnswerResult />
 {/if}
+
 {#if $app_state.is_answered && !$app_state.is_reveal}
   <AnswerResultMessage />
 {/if}
 
 {#if $app_state.is_reveal}
-  <Grade {grade_elements} />
+  <Grade {grade_elements} {word_element}/>
 {/if}
 
 <RetypeWanakanaInput kanji_mode={kanji_mode()} />

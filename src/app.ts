@@ -2,7 +2,7 @@ import App from "./App.svelte"
 import { get_element } from "./lib/common"
 
 
-const DEBUG_MODE = false
+const DEBUG_MODE = false;
 
 
 const get_data_audio = () => {
@@ -54,8 +54,10 @@ const get_data = () => {
 
 const clean = () => {
   let audio = get_data_audio()
+
   get_element(".container.bugfix")?.classList.add("hidden");
   get_element(".with-bottom-padding-2")?.classList.add("hidden")
+
   audio.sentence_audio?.remove()
   audio.word_audio?.remove()
 }
@@ -79,6 +81,7 @@ export const render = () => {
       debug_mode: DEBUG_MODE
     }
   })
+
 
   clean()
 }

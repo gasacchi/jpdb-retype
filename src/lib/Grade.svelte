@@ -1,14 +1,51 @@
 <script lang="ts">
-  import type { grade_elements, input_element } from "./common";
+  import {
+    clockfy_send,
+    get_datetime,
+    get_word_from_element,
+    type element,
+    type grade_elements,
+    type input_element,
+  } from "./common";
   import GradeModalConfirm from "./Grade_Modal_Confirm.svelte";
+  import { app_settings, app_state } from "./store";
 
   export let grade_elements: grade_elements;
+  export let word_element: element;
 
   let show_modal_confirm = false;
   let selected_grade: input_element = null;
 
   function close_modal() {
     show_modal_confirm = false;
+  }
+
+  function grading(element: input_element, grade: string) {
+    app_state.update((state) => ({ ...state, timer_end: get_datetime() }));
+
+    if ($app_state.timer_start && $app_state.timer_end) {
+      const {
+        clockify: { api_key, task_id, workspace_id, project_id },
+      } = $app_settings;
+
+      const start = $app_state.timer_start;
+      const end = $app_state.timer_end;
+      const word =
+        get_word_from_element(word_element) || $app_state.correct_answer;
+      const description = `Review - ${word} : ${grade}`;
+
+      clockfy_send({
+        api_key,
+        task_id,
+        project_id,
+        workspace_id,
+        start,
+        end,
+        description,
+      });
+    }
+
+    element?.click();
   }
 
   function handle_keyup(e: KeyboardEvent) {
@@ -48,56 +85,56 @@
 <svelte:window on:keyup={handle_keyup} />
 
 {#if show_modal_confirm}
-  <GradeModalConfirm {selected_grade} {close_modal} />
+  <GradeModalConfirm {selected_grade} {close_modal} {grading} />
 {/if}
 
 <div class="retype-grade fixed bottom-6">
   <div class="flex gap-4 justify-center items-center">
     <button
       class="border-red text-red"
-      on:click={() => grade_elements.nothing?.click()}
+      on:click={() => grading(grade_elements.nothing, "nothing")}
     >
       <kbd>n</kbd>
       <span>Nothing</span>
     </button>
     <button
       class="border-mauve text-mauve"
-      on:click={() => grade_elements.something?.click()}
+      on:click={() => grading(grade_elements.something, "something")}
     >
       <kbd>s</kbd>
       <span>Something</span>
     </button>
     <button
       class="border-peach text-peach"
-      on:click={() => grade_elements.hard?.click()}
+      on:click={() => grading(grade_elements.hard, "hard")}
     >
       <kbd>h</kbd>
       <span>Hard</span>
     </button>
     <button
       class="border-blue text-blue"
-      on:click={() => grade_elements.okay?.click()}
+      on:click={() => grading(grade_elements.okay, "okay")}
     >
       <kbd>o</kbd>
       <span>Okay</span>
     </button>
     <button
       class="border-green text-green"
-      on:click={() => grade_elements.easy?.click()}
+      on:click={() => grading(grade_elements.easy, "easy")}
     >
       <kbd>e</kbd>
       <span>Easy</span>
     </button>
     <button
       class="border-overlay2 text-overlay2"
-      on:click={() => grade_elements.blacklist?.click()}
+      on:click={() => grading(grade_elements.blacklist, "blacklist")}
     >
       <kbd>b</kbd>
       <span>Blacklist</span>
     </button>
     <button
       class="border-overlay1 text-overlay1"
-      on:click={() => grade_elements.never_forget?.click()}
+      on:click={() => grading(grade_elements.never_forget, "never_forget")}
     >
       <kbd>f</kbd>
       <span>Never Forget</span>

@@ -13,14 +13,15 @@ const inject_css = () => {
 
 
 const restyle = () => {
-  // const _html = get_element("html");
   const body = get_element("body");
+
   // force style
   body?.setAttribute("style", "margin: auto !important; background: #11111b !important")
 }
 
 const detect_front_review = () => {
   const show_answer_button = get_element("#show-answer", false)
+
   if (show_answer_button) return [true, show_answer_button];
 
   return [false, null]
@@ -28,6 +29,7 @@ const detect_front_review = () => {
 
 const detect_back_review = () => {
   const grade_button = get_element("input#grade-5", false)
+
   return grade_button !== null
 }
 
@@ -37,8 +39,6 @@ const skip_front_review = (button: HTMLInputElement) => {
 
 
 const main = () => {
-
- 
   inject_css();
   restyle();
 

@@ -3,6 +3,7 @@
 
   export let selected_grade: input_element;
   export let close_modal: () => void;
+  export let grading: (element: input_element, grade: string) => void;
 
   function selected_grade_value() {
     switch (selected_grade?.value) {
@@ -28,7 +29,7 @@
   function handle_keyup(event: KeyboardEvent) {
     // if (event.key === "")
     if (event.key === "Enter") {
-      selected_grade?.click();
+      grading(selected_grade, selected_grade_value());
     } else if (event.key === "c" || event.key === "Escape") {
       close_modal();
     }
@@ -50,7 +51,7 @@
     <div class="flex justify-center items-center gap-5">
       <button
         class="border-green text-green"
-        on:click={() => selected_grade?.click()}
+        on:click={() => grading(selected_grade, selected_grade_value())}
       >
         <kbd>enter</kbd>
         <span>Okay</span>
