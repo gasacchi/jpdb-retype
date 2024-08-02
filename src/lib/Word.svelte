@@ -6,12 +6,13 @@
   export let word_element: element;
 </script>
 
-<div class="retype-word flex items-end gap-3">
-  <!-- svelte-ignore a11y-invalid-attribute -->
+<div
+  class="retype-word flex items-end gap-3 top-0"
+>
+  {#if $app_state.is_reveal}
   <a
     href="#"
-    class="retype-word-audio mb-12 hover:border-none opacity-0"
-    class:opacity-100={$app_state.is_reveal}
+    class="retype-word-audio mb-12 hover:border-none"
     on:click|preventDefault={() => word_audio?.click()}
   >
     <svg
@@ -28,6 +29,7 @@
       />
     </svg>
   </a>
+  {/if}
   <h1
     class="retype-word-content text-9xl font-notojp"
     style={`--opacity: ${$app_state.is_reveal ? "100" : "0"}`}

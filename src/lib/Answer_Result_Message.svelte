@@ -10,7 +10,7 @@
     }, 500);
   }
 
-  function handle_keydown(e: KeyboardEvent) {
+  function handle_keyup(e: KeyboardEvent) {
     if (e.key === " ") {
       app_state.update((state) => ({ ...state, is_reveal: true }));
     }
@@ -22,7 +22,7 @@
   }
 </script>
 
-<svelte:window on:keydown={handle_keydown} />
+<svelte:window on:keyup={handle_keyup} />
 
 <div class="retype-answer-result-message mt-6 flex flex-col items-center">
 

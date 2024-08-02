@@ -1,6 +1,4 @@
 <script lang="ts">
-  import { get_element } from "./common";
-
   export let example_nodes_element: NodeListOf<Element>;
 
   function retype_vocabulary_examples(node: HTMLDivElement) {
@@ -28,17 +26,14 @@
         node.appendChild(container);
 
         if (index < example_nodes_element.length - 1) {
-          const icon_link = get_element(
-            `.retype-vocabulary-example-container:nth-child(${index + 1}) a`,
+          const icon_link = container.querySelector(
+            `:nth-child(${index + 1}) a`,
           );
-
           if (icon_link) {
             icon_link.innerHTML = icon;
           }
         }
       });
-
-      console.log(example_nodes_element.length);
     }
   }
 </script>

@@ -18,7 +18,7 @@ export const get_element = (selector: string, log: boolean = true): result => {
   const element = document.querySelector(selector);
   if (element) return element;
 
-  if (log) console.error(`element with selector: ${selector} not found`);
+  if (log) console.info(`element with selector: ${selector} not found`);
 
   return null
 }
@@ -40,9 +40,11 @@ export const get_word_from_element = (word_element: element): string | null => {
 }
 
 export const get_datetime = () => {
-  const utc_time = new Date().toString().split("GMT")[0] + " UTC"
-  const time = new Date(utc_time).toISOString()
-  return time
+  // const utc_time = new Date().toString().split("GMT")[0] + " UTC"
+  // const time = new Date(utc_time).toISOString()
+  // return time
+  // TODO: there is no need to convert to utf-8 ????
+  return new Date().toISOString()
 }
 
 type descriptions = {
@@ -78,9 +80,8 @@ export const clockfy_send = (descriptions: descriptions) => {
     },
     url,
     data: JSON.stringify(body),
-    onload: function(_response: any) {
-      console.info("Request success")
-      console.log(_response)
+    onload: function(response: any) {
+      console.info("Request success", JSON.parse(response.response))
     },
     onerror: function(error: any) {
       console.info("Request failed", error)

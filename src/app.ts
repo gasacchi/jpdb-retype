@@ -35,8 +35,6 @@ const get_data = () => {
     blacklist: get_element("input#grade-blacklist"),
     never_forget: get_element("input#grade-permaknown"),
   }
-
-
   return {
     word_element,
     sentence_element,
@@ -53,7 +51,7 @@ const get_data = () => {
 }
 
 const clean = () => {
-  let audio = get_data_audio()
+  const audio = get_data_audio()
 
   get_element(".container.bugfix")?.classList.add("hidden");
   get_element(".with-bottom-padding-2")?.classList.add("hidden")

@@ -1,5 +1,6 @@
 <script lang="ts">
   import * as wanakana from "wanakana";
+  import { onMount } from "svelte";
 
   import {
     get_datetime,
@@ -19,7 +20,6 @@
   import AnswerResultMessage from "./lib/Answer_Result_Message.svelte";
   import Grade from "./lib/Grade.svelte";
   import VocabularyModalExamples from "./lib/Vocabulary_Modal_Examples.svelte";
-  import { onMount } from "svelte";
 
   export let debug_mode: boolean;
   export let word_element: element;
@@ -48,20 +48,13 @@
     }
   }
 
-  function audio_play_audio() {
-    const audio = word_audio;
-    setTimeout(() => {
-      audio?.click();
-    }, 500);
-  }
-
   function handle_keyup(event: KeyboardEvent) {
     if (event.key === "x" && $app_state.is_reveal) {
       show_modal_examples = !show_modal_examples;
+    } else if (event.key === "r") {
+      console.log("here error");
     }
   }
-
-  $: if ($app_state.is_reveal) audio_play_audio();
 
   onMount(() => {
     app_state.update((state) => ({ ...state, timer_start: get_datetime() }));
@@ -69,9 +62,6 @@
 
   // TODO:
   // - [] sometime `e` & `r` key still playing the audio
-  // - [] reactivity between retype and jpdb when editing sentence or meaning
-  // - [] fix all error in console
-  // - [] integrate with clockify
 </script>
 
 <svelte:window on:keyup={handle_keyup} />
@@ -82,15 +72,18 @@
 
 <Word {word_audio} {word_element} />
 <Sentence {sentence_audio} {sentence_edit_element} {sentence_element} />
-<SentenceTranslation {sentence_translation_element} />
 
-<VocabularyResult
-  {meaning_element}
-  {kanji_used_element}
-  {pitch_accent_container_element}
-  {pitch_accent_nodes_element}
-  {compose_vocabulary_element}
-/>
+{#if $app_state.is_reveal}
+  <SentenceTranslation {sentence_translation_element} />
+  <VocabularyResult
+    {word_audio}
+    {meaning_element}
+    {kanji_used_element}
+    {pitch_accent_container_element}
+    {pitch_accent_nodes_element}
+    {compose_vocabulary_element}
+  />
+{/if}
 
 {#if $app_state.is_answered}
   <AnswerResult />
@@ -101,7 +94,7 @@
 {/if}
 
 {#if $app_state.is_reveal}
-  <Grade {grade_elements} {word_element}/>
+  <Grade {grade_elements} {word_element} />
 {/if}
 
 <RetypeWanakanaInput kanji_mode={kanji_mode()} />

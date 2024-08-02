@@ -1,15 +1,16 @@
 <script lang="ts">
-  import { get_element, type element } from "./common";
-  import { app_state } from "./store";
+  import { onMount } from "svelte";
+  import { type element, type link_element } from "./common";
 
+  export let word_audio: link_element;
   export let meaning_element: element;
   export let pitch_accent_container_element: element;
   export let pitch_accent_nodes_element: NodeListOf<Element>;
   export let kanji_used_element: element;
   export let compose_vocabulary_element: element;
 
-  function retype_meaning_restyle(_node: HTMLDivElement) {
-    const icon_link = get_element(".retype-meaning a");
+  function retype_meaning_restyle(node: HTMLDivElement) {
+    const icon_link = node.querySelector("a");
     if (icon_link) {
       icon_link.innerHTML = `
       
@@ -27,8 +28,8 @@
     }
   }
 
-  function retype_pitch_restyle() {
-    const container = get_element(".retype-pitch-accent .subsection>div");
+  function retype_pitch_restyle(node: HTMLDivElement) {
+    const container = node.querySelector(".subsection>div");
     const icon = `
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -46,30 +47,32 @@
     `;
     if (container) {
       container.innerHTML = "";
-      pitch_accent_nodes_element.forEach((e, index) => {
+
+      pitch_accent_nodes_element?.forEach((e, index) => {
         container.appendChild(e);
 
-        // console.log(index);
-        const icon_link = get_element(`.retype-pitch-accent .subsection>div>div:nth-child(${index + 1}) a`)
+        const icon_link = container.querySelector(
+          `.subsection>div>div:nth-child(${index + 1}) a`,
+        );
         if (icon_link) {
-          icon_link.innerHTML = icon
+          icon_link.innerHTML = icon;
         }
       });
     }
   }
 
-
-  $: if ($app_state.is_reveal) retype_pitch_restyle();
+  onMount(() => {
+    setTimeout(() => {
+      word_audio?.click();
+    }, 300);
+  });
 </script>
 
-<div
-  class="retype-result-vocabulary flex flex-wrap mt-8 opacity-0"
-  class:opacity-100={$app_state.is_reveal}
->
+<div class="retype-result-vocabulary flex flex-wrap mt-8">
   <div use:retype_meaning_restyle class="retype-meaning basis-1/2">
     {@html meaning_element?.innerHTML}
   </div>
-  <div class="retype-pitch-accent basis-1/2">
+  <div use:retype_pitch_restyle class="retype-pitch-accent basis-1/2">
     {@html pitch_accent_container_element?.innerHTML}
   </div>
 

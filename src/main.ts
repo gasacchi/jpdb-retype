@@ -37,7 +37,6 @@ const skip_front_review = (button: HTMLInputElement) => {
   button.click()
 }
 
-
 const main = () => {
   inject_css();
   restyle();

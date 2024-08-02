@@ -34,18 +34,19 @@
         get_word_from_element(word_element) || $app_state.correct_answer;
       const description = `Review - ${word} : ${grade}`;
 
-      clockfy_send({
-        api_key,
-        task_id,
-        project_id,
-        workspace_id,
-        start,
-        end,
-        description,
-      });
-    }
+      console.log("start:", start, "end:", end);
 
-    element?.click();
+        clockfy_send({
+          api_key,
+          task_id,
+          project_id,
+          workspace_id,
+          start,
+          end,
+          description,
+        });
+      // element?.click();
+    }
   }
 
   function handle_keyup(e: KeyboardEvent) {
