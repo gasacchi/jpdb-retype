@@ -1,7 +1,13 @@
 export type element = Element | null
+
+export type nodes = NodeListOf<Element> | null
+
 export type input_element = HTMLInputElement | null
+
 export type link_element = HTMLAnchorElement | null
-export type grade_elements = {
+
+export type grade_elements =
+{
   nothing: input_element;
   something: input_element;
   hard: input_element;
@@ -11,14 +17,42 @@ export type grade_elements = {
   never_forget: input_element;
 }
 
-type result = element | input_element | link_element
+export type element_result = 
+    | element
+    | nodes
+    | input_element
+    | link_element
+    | grade_elements
 
+type options =
+{
+    all?: boolean;
+    name?: string;
+    log?: boolean;
+}
 
-export const get_element = (selector: string, log: boolean = true): result => {
-  const element = document.querySelector(selector);
-  if (element) return element;
+const default_option: options =
+{
+    all: false,
+    name: undefined,
+    log: true,
+}
 
-  if (log) console.info(`element with selector: ${selector} not found`);
+export function get_element(selector: string, opt = default_option): element_result
+{
+    const error_message = opt.name
+                        ? `${opt.name} not found`
+                        :`Element with selector: ${selector} not found`;
+
+    const element = opt.all
+                    ? document.querySelectorAll(selector)
+                    : document.querySelector(selector);
+
+  if (element)
+    return element;
+
+  if (opt.log)
+    console.log(error_message);
 
   return null
 }

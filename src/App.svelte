@@ -62,6 +62,7 @@
 
   // TODO:
   // - [] sometime `e` & `r` key still playing the audio
+  // - [] move to 2 seperate component
 </script>
 
 <svelte:window on:keyup={handle_keyup} />

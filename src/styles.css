@@ -9,5 +9,9 @@ html {
 }
 
 body {
-  @apply m-auto bg-crust;
+  @apply mx-auto bg-crust;
+}
+
+.retype-front-container {
+  @apply flex flex-col grow gap-5 justify-center items-center;
 }
