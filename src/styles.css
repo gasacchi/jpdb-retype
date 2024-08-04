@@ -15,3 +15,7 @@ body {
 .retype-front-container {
   @apply flex flex-col grow gap-5 justify-center items-center;
 }
+
+.retype-back-container {
+  @apply flex flex-col grow justify-center items-center;
+}

@@ -2,6 +2,8 @@
     import { fade } from "svelte/transition";
     import * as wanakana from "wanakana";
 
+    export let reveal_button_element: Element;
+
     let retype_input: HTMLInputElement;
     let error: boolean = false;
     let error_message: string = "";
@@ -19,10 +21,17 @@
         }
     }
 
+    function send_data_to_back_card(answer: string): void
+    {
+        window.localStorage.setItem("retype_user_answer", JSON.stringify(answer))
+
+        if (reveal_button_element)
+            (reveal_button_element as HTMLInputElement).click();
+    }
+
     function reset_error():void
     {
-        setTimeout(() =>
-        {
+        setTimeout(() => {
             error = false;
             error_message = "";
         }, 1500)
@@ -42,7 +51,7 @@
         }
         else
         {
-            console.log(value);
+            send_data_to_back_card(value);
         }
 
         reset_error();
@@ -82,7 +91,7 @@
     input {
         @apply text-center text-2xl text-peach;
         @apply outline-none border-none rounded-none;
-        @apply bg-base;
+        @apply bg-base font-notojp;
     }
     input:focus {
         @apply border border-peach;
