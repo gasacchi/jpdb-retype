@@ -1,12 +1,16 @@
 <script lang="ts">
+    import { onMount } from "svelte";
     import { fade } from "svelte/transition";
-    import * as wanakana from "wanakana";
 
-    export let reveal_button_element: Element;
+    import * as wanakana from "wanakana";
+    import { front_store } from "./front_store";
+
+    export let reveal_button_element: HTMLInputElement | null;
 
     let retype_input: HTMLInputElement;
     let error: boolean = false;
     let error_message: string = "";
+    let is_animated: boolean = false;
 
 
     function wanakana_init(node: HTMLInputElement): { destroy(): void }
@@ -23,10 +27,17 @@
 
     function send_data_to_back_card(answer: string): void
     {
-        window.localStorage.setItem("retype_user_answer", JSON.stringify(answer))
+         front_store.update(data => {
+             data.user_answer = answer;
+             return data
+         });
 
-        if (reveal_button_element)
-            (reveal_button_element as HTMLInputElement).click();
+         if (reveal_button_element)
+         {
+            localStorage.setItem("retype-data", JSON.stringify($front_store));             
+
+            reveal_button_element.click()
+         }
     }
 
     function reset_error():void
@@ -61,24 +72,42 @@
     {
         validate_input(retype_input.value);
     }
+
+    onMount(() => {
+        setTimeout(() => {
+            is_animated = true;
+        }, 300)
+    })
 </script>
 
 
-<form action="" class="retype-form" on:submit|preventDefault={handle_submit}>
-    {#if error}
-    	<span in:fade>{error_message}</span>
-    {/if}
-    <!-- svelte-ignore a11y-autofocus -->
-    <input
-        autofocus
-        bind:this={retype_input}
-        use:wanakana_init
-        type="text"
+{#if is_animated}
+
+    <form
+        in:fade={{ duration: 1000, delay: 500 }}
+        class="retype-form"
+        on:submit|preventDefault={handle_submit}
     >
-</form>
+
+        {#if error}
+
+        	<span in:fade>{error_message}</span>
+
+        {/if}
+        <!-- svelte-ignore a11y-autofocus -->
+        <input
+            autofocus
+            bind:this={retype_input}
+            use:wanakana_init
+            type="text"
+        >
+    </form>
+
+{/if}
 
 
 <style lang="postcss">
+
     form {
         @apply fixed bottom-6 w-full;
         @apply flex flex-col gap-2 items-center;
@@ -93,7 +122,9 @@
         @apply outline-none border-none rounded-none;
         @apply bg-base font-notojp;
     }
+
     input:focus {
         @apply border border-peach;
     }
+
 </style>

@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { fly, scale } from "svelte/transition";
+
     export let sentence_furigana_element: Element | null;
     export let sentence_audio_element: HTMLAnchorElement | null;
     export let sentence_edit_element: HTMLAnchorElement | null;
@@ -19,8 +21,7 @@
     }
 </script>
 
-<div class="retype-sentence-furigana">
-
+<div in:scale={{ duration: 500, delay: 300 }} class="retype-sentence-furigana">
     {#if sentence_audio_element}
     	  <button 
     	      on:click|preventDefault={() => sentence_audio_element.click()}
@@ -59,7 +60,7 @@
     {/if}
 </div>
 
-<div class="retype-sentence-translation">
+<div in:scale={{ duration: 500, delay: 300 }} class="retype-sentence-translation">
     {#if sentence_translation_element}
         <div class="retype-sentence-translation-content">
             {@html sentence_translation_element.innerHTML}
@@ -69,7 +70,8 @@
 
 <style lang="postcss">
     .retype-sentence-furigana {
-        @apply flex gap-2 mt-8;
+        @apply flex justify-center items-center;
+        @apply w-full mt-4;
     }
 
     .retype-sentence-furigana-audio,
@@ -78,7 +80,7 @@
     }
 
     .retype-sentence-furigana-content {
-        @apply text-text text-3xl font-notojp;
+        @apply text-text text-2xl font-notojp;
     }
 
     .retype-sentence-furigana-content :global(.highlight) {
@@ -87,7 +89,8 @@
     }
 
     .retype-sentence-translation {
-        @apply mt-4 text-subtext1;
+        @apply flex justify-center items-center;
+        @apply w-full mt-2 text-subtext1;
     }
 
 </style>

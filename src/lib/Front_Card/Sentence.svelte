@@ -1,7 +1,7 @@
 <script lang="ts">
     import { fade } from "svelte/transition";
 
-    export let sentence_element: Element;  
+    export let sentence_element: Element | null;
 
     function render_sentence_element(node: HTMLDivElement):void
     {
@@ -24,10 +24,13 @@
 </div>
 
 <style lang="postcss">
+
     div {
         @apply text-3xl text-text font-notojp;
     }    
+
     div :global(.highlight) {
         @apply bg-transparent border-none underline underline-offset-8 decoration-peach;
     }
+
 </style>

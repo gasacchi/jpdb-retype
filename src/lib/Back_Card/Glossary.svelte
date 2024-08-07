@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { blur } from "svelte/transition";
+
     export let meanings_element: Element | null;
     export let pitch_accent_container_element: Element | null;
     export let pitch_accent_nodes: NodeListOf<Element> | null;
@@ -68,46 +70,40 @@
 </script>
 
 
-<div class="retype-glossary">
-
+<div
+    in:blur={{ amount: 10, duration: 500 }}
+    class="retype-glossary">
     {#if meanings_element}
-
-        <div use:meanings_render class="retype-meanings">
+        <div
+            use:meanings_render class="retype-meanings">
             {@html meanings_element.innerHTML}
         </div>
-    	
     {/if}    
 
     {#if pitch_accent_container_element}
-
         <div use:pitch_accent_render class="retype-pitch-accent">
             {@html pitch_accent_container_element.innerHTML}
         </div>
-    	
     {/if}  
 
     {#if kanji_used_element}
-
         <div class="retype-kanji-used">
             {@html kanji_used_element.innerHTML}
         </div>
-    	
     {/if}
 
 
     {#if composed_vocabulary_element}
-
         <div class="retype-composed-vocabulary">
             {@html composed_vocabulary_element.innerHTML}
         </div>
-    	
     {/if}
-
 </div>
 
 <style lang="postcss">
     .retype-glossary {
-        @apply flex flex-wrap mt-8;
+        @apply flex flex-wrap mt-4;
+        @apply w-full;
     }
 
     .retype-meanings {
@@ -119,7 +115,7 @@
     }
 
     .retype-pitch-accent :global(div[style*="word-break"]) {
-        @apply font-notojp text-text text-xl font-semibold;
+        @apply font-notojp text-text font-semibold;
     }
 
     .retype-pitch-accent :global(div[style*="word-break"] div>div) {
@@ -134,8 +130,9 @@
         @apply flex items-center gap-2;
     }
 
-    .retype-kanji-used :global(.subsection a) {
-        @apply text-peach font-notojp;
+    .retype-kanji-used :global(.subsection a),
+    .retype-composed-vocabulary :global(.subsection a) {
+        @apply text-peach font-notojp text-xl;
     }
 
     .retype-composed-vocabulary {

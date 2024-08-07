@@ -17,6 +17,17 @@ function mount(element: Element): void
 }
 
 
+export type grade_element =
+{
+    nothing: Element | null;
+    something: Element | null;
+    hard: Element | null;
+    okay: Element | null;
+    easy: Element | null;
+    blacklist: Element | null;
+    never_forget: Element | null;
+}
+
 type back_data =
 {
     word_furigana_element: Element | null;
@@ -30,17 +41,9 @@ type back_data =
     pitch_accent_container_element: Element | null;
     pitch_accent_nodes: NodeListOf<Element> | null;
     composed_vocabulary_element: Element | null;
-    examples_element: Element | null;
-    grade_element:
-    {
-        nothing: Element | null;
-        something: Element | null;
-        hard: Element | null;
-        okay: Element | null;
-        easy: Element | null;
-        blacklist: Element | null;
-        never_forget: Element | null;
-    }
+    examples_container_element: Element | null;
+    examples_nodes: NodeListOf<Element> | null;
+    grade_element: grade_element;
 }
 
 function get_data(): back_data
@@ -56,7 +59,8 @@ function get_data(): back_data
     const pitch_accent_container_element = document.querySelector(".subsection-pitch-accent");
     const pitch_accent_nodes = document.querySelectorAll(".subsection-pitch-accent .subsection>div>div")
     const composed_vocabulary_element = document.querySelector(".subsection-composed-of-vocabulary");
-    const examples_element = document.querySelector(".subsection-examples");
+    const examples_container_element = document.querySelector(".subsection-examples");
+    const examples_nodes = document.querySelectorAll(".subsection-examples .subsection>div");
     const grade_element = {
         nothing: document.querySelector("#grade-1"),        
         something: document.querySelector("#grade-2"),        
@@ -79,7 +83,8 @@ function get_data(): back_data
         pitch_accent_container_element,
         pitch_accent_nodes,
         composed_vocabulary_element,
-        examples_element,
+        examples_container_element,
+        examples_nodes,
         grade_element,
     }
 }
