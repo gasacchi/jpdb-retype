@@ -1,3 +1,5 @@
+import { writable } from "svelte/store";
+
 type descriptions =
 {
     api_key: string;
@@ -9,7 +11,7 @@ type descriptions =
     description: string;
 }
 
-export function clockify_send(descriptions: descriptions): void
+export function clockify_send(descriptions: descriptions): boolean
 {
     const {
         api_key,
@@ -33,6 +35,9 @@ export function clockify_send(descriptions: descriptions): void
         taskId: task_id,
         type: "REGULAR",
     };
+
+    let error: boolean = false;
+
     //@ts-ignore
     GM_xmlhttpRequest({
         method: "POST",
@@ -43,10 +48,15 @@ export function clockify_send(descriptions: descriptions): void
         url,
         data: JSON.stringify(body),
         onload: function(response: any) {
-          console.info("Request success", JSON.parse(response.response))
+            console.log("Request success", response.response);
+            error = false;
         },
         onerror: function(error: any) {
-          console.info("Request failed", error)
+          console.info("Request failed", error);
+          error = true;
         }
     })
+
+    return error;
+
 }

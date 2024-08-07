@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { clockify_send } from "../integrations/clockify";
     import { back_store } from "./back_store";
 
     export let selected_grade: string | null;
@@ -7,7 +8,39 @@
 
     function card_review(): void
     {
-        const {time_start, word} = $back_store
+        const {time_start: start, word} = $back_store
+        if (start && word && selected_grade_element)
+        {
+            const {
+                VITE_CLOCKIFY_KEY,
+                VITE_CLOCKIFY_WORKSPACE_ID,
+                VITE_CLOCKIFY_PROJECT_ID,
+                VITE_CLOCKIFY_TASK_ID,
+            } = import.meta.env
+
+            const description = `${word} :: ${selected_grade}`;
+
+            const end = new Date().toISOString();
+            
+            const error = clockify_send({
+                api_key: VITE_CLOCKIFY_KEY,
+                workspace_id: VITE_CLOCKIFY_WORKSPACE_ID,
+                project_id: VITE_CLOCKIFY_PROJECT_ID,
+                task_id: VITE_CLOCKIFY_TASK_ID,
+                description,
+                start,
+                end
+            });
+
+            if (!error)
+            {
+                selected_grade_element.click();
+            }
+            else
+            {
+                console.error("Request to clockify failed");
+            }
+        }
     }
 
     function handle_keyup(event: KeyboardEvent): void
