@@ -23,7 +23,6 @@
                     window.history.back();
                     break;
                 case " ":
-                case "Enter":
                     back_store.update(data => {
                        data.is_reveal = true;
                        return data; 

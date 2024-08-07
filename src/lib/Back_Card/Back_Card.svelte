@@ -9,7 +9,7 @@
     import WordFurigana from "./Word_Furigana.svelte";
 
     import type { grade_element } from "../../back_card";
-    import {back_store} from "./back_store";
+    import { back_store } from "./back_store";
 
     export let word_furigana_element: Element | null;
     export let word_audio_element: HTMLAnchorElement | null;

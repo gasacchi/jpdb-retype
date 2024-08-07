@@ -1,8 +1,18 @@
 <script lang="ts">
+    import { onMount } from "svelte";
     import { scale } from "svelte/transition";
 
     export let word_furigana_element: Element | null;
     export let word_audio_element: HTMLAnchorElement | null
+
+    onMount(() => {
+        setTimeout(() => {
+            if (word_audio_element)
+            {
+                word_audio_element.click();
+            }
+        }, 500);
+    })
 
 </script>
 

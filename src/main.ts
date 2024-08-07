@@ -45,7 +45,7 @@ function main(): void
     }
     else
     {
-        console.error("Error when trying to render front card");
+        console.info("not detecting review page");
     }
 
     window.addEventListener("urlchange", () => {

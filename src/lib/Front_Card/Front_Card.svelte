@@ -13,6 +13,7 @@
 
     export let sentence_element: Element | null;
     export let word_element: Element | null;
+    export let reveal_form_element: HTMLFormElement | null;
     export let reveal_button_element: HTMLInputElement | null;
 
     let animated: boolean = false;
@@ -63,6 +64,7 @@
 {#if is_kanji}
 
     <Retype
+        {reveal_form_element}
         {reveal_button_element}
     />
 

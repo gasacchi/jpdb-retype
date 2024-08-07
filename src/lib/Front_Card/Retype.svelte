@@ -5,6 +5,7 @@
     import * as wanakana from "wanakana";
     import { front_store } from "./front_store";
 
+    export let reveal_form_element: HTMLFormElement | null;
     export let reveal_button_element: HTMLInputElement | null;
 
     let retype_input: HTMLInputElement;
@@ -32,11 +33,22 @@
              return data
          });
 
-         if (reveal_button_element)
+         if (reveal_form_element)
          {
-            localStorage.setItem("retype-data", JSON.stringify($front_store));             
+            // fix form submission canceled because the form is not connected
+            // https://stackoverflow.com/questions/42053775/getting-error-form-submission-canceled-because-the-form-is-not-connected
 
-            reveal_button_element.click()
+            reveal_form_element.classList.add("hidden")
+
+            document.querySelector("body")?.appendChild(reveal_form_element);
+
+            const button = document.querySelector("#show-answer");
+
+            if (button)
+            {
+                localStorage.setItem("retype-data", JSON.stringify($front_store));             
+                (button as HTMLInputElement).click();
+            }
          }
     }
 
@@ -58,6 +70,7 @@
         else if (!wanakana.isHiragana(value))
         {
             error = true;
+            console.log(value)
             error_message = "Input only accept Hiragana";
         }
         else

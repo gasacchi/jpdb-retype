@@ -27,6 +27,6 @@ export const back_store = writable<data>(default_value, (set) => {
         {
             const { is_kanji, time_start, user_answer, word} : front_data = JSON.parse(data);
             const is_reveal = is_kanji === true ? false : true;
-            set({ is_reveal, time_start, user_answer, word })
+            set({ is_reveal, time_start, user_answer, word });
         }
 });
