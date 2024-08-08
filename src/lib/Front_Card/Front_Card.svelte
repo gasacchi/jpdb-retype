@@ -24,8 +24,9 @@
             ?.textContent
             ?.split("")
             .map(wanakana.isKanji)
+            .reduce((prev, curr) => prev || curr)
 
-        return (word?.length ?? 0) > 0;
+        return word ?? false;
     }
 
     onMount(() => 
@@ -66,6 +67,8 @@
 
 {:else}
 
-    <NotKanjiMessage/>
+    <NotKanjiMessage
+        {reveal_form_element}
+    />
 
 {/if}

@@ -1,10 +1,34 @@
 <script lang="ts">
     import { onMount } from "svelte";
-
-
     import { fade } from "svelte/transition";
 
+    import { front_store } from "./front_store";
+
+    export let reveal_form_element: HTMLFormElement | null;
+
     let is_animated: boolean = false;
+
+
+    function handle_keyup(event: KeyboardEvent): void
+    {
+         if (reveal_form_element && (event.key === " "))
+         {
+            // fix form submission canceled because the form is not connected
+            // https://stackoverflow.com/questions/42053775/getting-error-form-submission-canceled-because-the-form-is-not-connected
+
+            reveal_form_element.classList.add("hidden")
+
+            document.querySelector("body")?.appendChild(reveal_form_element);
+
+            const button = document.querySelector("#show-answer");
+
+            if (button)
+            {
+                localStorage.setItem("retype-data", JSON.stringify($front_store));             
+                (button as HTMLInputElement).click();
+            }
+         }
+    }
 
     onMount(() => {
         setTimeout(() => {
@@ -13,6 +37,8 @@
     })
 
 </script>
+
+<svelte:window on:keyup={handle_keyup} />
 
 {#if is_animated}
 
@@ -37,7 +63,7 @@
 
 <style lang="postcss">
     .retype-not-kanji-message {
-        @apply fixed bottom-8 mt-8 text-center text-text text-xl;
+        @apply fixed bottom-10 text-center text-text text-xl;
     }
 
     .retype-not-kanji-message b {
