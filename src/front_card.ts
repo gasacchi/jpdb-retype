@@ -24,7 +24,6 @@ type front_data =
     word_element: Element | null;
     sentence_element: Element | null;
     reveal_form_element: Element | null;
-    reveal_button_element: Element | null;
 }
 
 function get_data(): front_data
@@ -32,13 +31,11 @@ function get_data(): front_data
     const word_element = document.querySelector(".answer-box .plain>div:nth-child(3)");
     const sentence_element = document.querySelector(".card-sentence .sentence");
     const reveal_form_element = document.querySelector(".review-button-group form");
-    const reveal_button_element = document.querySelector("#show-answer");
 
     return { 
         word_element,
         sentence_element,
         reveal_form_element,
-        reveal_button_element
     };
 }
 

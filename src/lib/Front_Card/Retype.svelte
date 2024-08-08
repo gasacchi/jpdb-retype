@@ -6,7 +6,6 @@
     import { front_store } from "./front_store";
 
     export let reveal_form_element: HTMLFormElement | null;
-    export let reveal_button_element: HTMLInputElement | null;
 
     let retype_input: HTMLInputElement;
     let error: boolean = false;
@@ -70,7 +69,6 @@
         else if (!wanakana.isHiragana(value))
         {
             error = true;
-            console.log(value)
             error_message = "Input only accept Hiragana";
         }
         else

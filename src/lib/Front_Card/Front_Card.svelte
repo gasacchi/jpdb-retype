@@ -14,7 +14,6 @@
     export let sentence_element: Element | null;
     export let word_element: Element | null;
     export let reveal_form_element: HTMLFormElement | null;
-    export let reveal_button_element: HTMLInputElement | null;
 
     let animated: boolean = false;
     let is_kanji: boolean;
@@ -45,8 +44,6 @@
         }, 300)
     });
 
-    // TODO:
-    // - [] "space" trigger reveal back card
 </script>
 
 {#if animated}
@@ -65,7 +62,6 @@
 
     <Retype
         {reveal_form_element}
-        {reveal_button_element}
     />
 
 {:else}
