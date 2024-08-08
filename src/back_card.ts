@@ -27,14 +27,13 @@ export type grade_element =
     blacklist: Element | null;
     never_forget: Element | null;
 }
-
 type back_data =
 {
     word_furigana_element: Element | null;
-    word_audio_element: Element | null;
+    word_audio_element: HTMLAnchorElement | null;
     sentence_furigana_element: Element | null;
-    sentence_audio_element: Element | null;
-    sentence_edit_element: Element | null;
+    sentence_audio_element: HTMLAnchorElement | null;
+    sentence_edit_element: HTMLAnchorElement | null;
     sentence_translation_element: Element | null;
     meanings_element: Element | null;
     kanji_used_element: Element | null;
@@ -49,10 +48,10 @@ type back_data =
 function get_data(): back_data
 {
     const word_furigana_element = document.querySelector(".answer-box .plain a");
-    const word_audio_element = document.querySelector(".icon-link.vocabulary-audio");
+    const word_audio_element = document.querySelector(".icon-link.vocabulary-audio") as HTMLAnchorElement;
     const sentence_furigana_element = document.querySelector(".sentence");
-    const sentence_audio_element = document.querySelector(".sentence a.icon-link.example-audio");
-    const sentence_edit_element = document.querySelector(".card-sentence .icon-link[href*='/edit']");
+    const sentence_audio_element = document.querySelector(".sentence a.icon-link.example-audio") as HTMLAnchorElement;
+    const sentence_edit_element = document.querySelector(".card-sentence .icon-link[href*='/edit']") as HTMLAnchorElement;
     const sentence_translation_element = document.querySelector(".sentence-translation");
     const meanings_element = document.querySelector(".subsection-meanings");
     const kanji_used_element = document.querySelector(".subsection-composed-of-kanji");

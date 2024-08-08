@@ -47,7 +47,7 @@
         class="modal-toggle"
     />
     <div class="modal modal-open" role="dialog">
-        <div use:examples_render class="retype-examples">
+        <div use:examples_render class="retype-examples modal-box bg-crust">
             <h3 class="retype-examples-title">Examples</h3>
             <div class="retype-examples-content">
                 {@html examples_container_element.innerHTML}
@@ -59,9 +59,6 @@
 
 
 <style lang="postcss">
-    .retype-examples {
-        @apply bg-crust modal-box;
-    }
 
     .retype-examples-title {
         @apply text-2xl text-peach font-bold text-center;

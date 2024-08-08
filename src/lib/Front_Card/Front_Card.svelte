@@ -31,6 +31,7 @@
 
     onMount(() => 
     {
+        //@ts-ignore
         is_kanji = kanji_mode();
 
         front_store.update(data => {

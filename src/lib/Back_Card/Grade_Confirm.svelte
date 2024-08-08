@@ -68,7 +68,7 @@
     class="modal modal-open"
     role="dialog"
 >
-    <div class="retype-grade-confirm">
+    <div class="retype-grade-confirm modal-box">
         <h3 class="retype-grade-confirm-title">Confirm</h3>
         <div class="retype-grade-confirm-message">
           You're selecting <span>{selected_grade}</span>, are you sure?  
@@ -78,7 +78,7 @@
         	    class={`retype-grade-confirm-okay`}
         	    on:click={() => card_review()}
         	>
-    	        <kbd>enter</kbd>
+    	        <kbd class="kbd kbd-xs bg-base">enter</kbd>
         	    <span>Confirm</span>
         	</button>
         	<button
@@ -94,12 +94,8 @@
 </div>
 
 <style lang="postcss">
-    kbd {
-        @apply kbd kbd-xs bg-base;
-    }
-
-    div.retype-grade-confirm {
-        @apply modal-box bg-crust text-center;
+    .retype-grade-confirm {
+        @apply bg-crust text-center;
         @apply flex flex-col gap-4;
     }
 
