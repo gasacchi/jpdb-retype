@@ -17,17 +17,17 @@
     {
         if (!$back_store.is_reveal)
         {
-            switch(event.key)
+            if (!$is_correct && (event.key === "t"))
             {
-                case "t":
-                    window.history.back();
-                    break;
-                case " ":
-                    back_store.update(data => {
-                       data.is_reveal = true;
-                       return data; 
-                    });
-                    break;
+                window.history.back();
+            }
+
+            else if (event.key === " ")
+            {
+                back_store.update(data => {
+                   data.is_reveal = true;
+                   return data; 
+                });
             }
         }
     }
